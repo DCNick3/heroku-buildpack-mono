@@ -87,8 +87,8 @@ tar xJf $MONO_LOCATION -C $BUILD_DIR
 
 # mono expects to be running out of /app/mono
 ln -s $BUILD_DIR/mono /app/mono
-mkdir -p $BUILD_DIR/.config/.mono/certs
-ln -s $BUILD_DIR/.config /app/.config
+#mkdir -p $BUILD_DIR/.config/.mono/certs
+#ln -s $BUILD_DIR/.config /app/.config
 
 export PATH="/app/mono/bin:$PATH"
 export LD_LIBRARY_PATH="/app/mono/lib:$LD_LIBRARY_PATH"
@@ -99,6 +99,8 @@ export MONO_CONFIG="/app/mono/etc/mono/config"
 topic "Installing SSL certificates"
 #mcs $BUILDPACK_DIR/scripts/cert-sync.cs /r:Mono.Security.dll /out:$BUILDPACK_DIR/cert-sync.exe
 #mono $BUILDPACK_DIR/cert-sync.exe --user /etc/ssl/certs/ca-certificates.crt
+mkdir ~/.config
+mkdir $BUILD_DIR/.config
 cp -r $BUILDPACK_DIR/.config ~/.config
 cp -r $BUILDPACK_DIR/.config $BUILD_DIR/.config
 
