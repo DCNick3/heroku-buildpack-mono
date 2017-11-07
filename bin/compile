@@ -45,7 +45,7 @@ if [[ $MONO_TYPE != "full" && $MONO_TYPE != "minimal" ]]; then
   MONO_TYPE="full"
 fi
 
-if [[ $MONO_TYPE != "full"]]; then
+if [ $MONO_TYPE != "full" ]; then
   warn "MONO_TYPE is not 'full'. This will probably fail."
 fi
 
