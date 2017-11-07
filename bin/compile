@@ -122,6 +122,9 @@ EOF
 set +e
 
 curl 'https://github.com/mono/nuget-binary/raw/2.12/NuGet.exe' -Lfs > $BUILDPACK_DIR/nuget.exe
+curl 'https://github.com/mono/nuget-binary/raw/2.12/NuGet.Core.dll' -Lfs > $BUILDPACK_DIR/NuGet.Core.dll
+curl 'https://github.com/mono/nuget-binary/raw/2.12/Microsoft.Web.XmlTransform.dll' -Lfs > $BUILDPACK_DIR/Microsoft.Web.XmlTransform.dll
+
 NUGET_STATUS=$?
 
 set -e
