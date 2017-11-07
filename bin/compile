@@ -6,7 +6,7 @@ set -e
 
 
 # debug
-set -x
+# set -x
 
 # parse and derive params
 BUILD_DIR=$1
@@ -33,7 +33,7 @@ function indent() {
 }
 
 MONO_VERSION=`cat $BUILDPACK_DIR/latest`
-MONO_TYPE="minimal"
+MONO_TYPE="full"
 
 if [[ -f $BUILD_DIR/.mono ]]; then
   source $BUILD_DIR/.mono
@@ -43,6 +43,10 @@ if [[ $MONO_TYPE != "full" && $MONO_TYPE != "minimal" ]]; then
   warn "MONO_TYPE must be 'minimal' or 'full': '$MONO_TYPE'"
   warn "Setting MONO_TYPE to 'full'"
   MONO_TYPE="full"
+fi
+
+if [[ $MONO_TYPE != "full"]]; then
+  warn "MONO_TYPE is not 'full'. This will probably fail."
 fi
 
 MONO_CACHE_DIR=$CACHE_DIR/mono-adamb
@@ -97,8 +101,9 @@ export MONO_CONFIG="/app/mono/etc/mono/config"
 # install certificates from the host
 # using this ensures that the certs are managed by heroku
 topic "Installing SSL certificates"
-mcs $BUILDPACK_DIR/scripts/cert-sync.cs /r:Mono.Security.dll /out:$BUILDPACK_DIR/cert-sync.exe
-mono $BUILDPACK_DIR/cert-sync.exe --user /etc/ssl/certs/ca-certificates.crt
+#mcs $BUILDPACK_DIR/scripts/cert-sync.cs /r:Mono.Security.dll /out:$BUILDPACK_DIR/cert-sync.exe
+# This will only work for "full" build
+cert-sync --user /etc/ssl/certs/ca-certificates.crt
 
 # most of these are needed for tools like mkbundle to work
 # (and will only work with the 'full' mono build)
